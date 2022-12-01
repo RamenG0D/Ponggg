@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import java.awt.Image;
 import java.awt.image.BufferStrategy;
 import java.awt.FlowLayout;
+import java.awt.Font;
 
 public class Window extends JFrame implements Runnable, KeyListener {
     private Paddle paddle1 = new Paddle(25, 300);
@@ -30,8 +31,8 @@ public class Window extends JFrame implements Runnable, KeyListener {
     //
     public Window() {
         Dimension d = new Dimension();
-        d.width = 220;
-        d.height = 100;
+        d.width = 185;
+        d.height = 45;
         this.ball.fail = false;
         gameStarted = false;
         ai = false;
@@ -55,10 +56,12 @@ public class Window extends JFrame implements Runnable, KeyListener {
         });
         this.setLayout(new FlowLayout(FlowLayout.CENTER, this.getSize().width / 2, this.getSize().height / 2));
         button.setPreferredSize(d);
+        button.setFont(new Font("Arial", Font.PLAIN, 30));
+        button.setFocusPainted(false);
         this.add(button);
         //paints the screen but only once so that the button is visible
-        this.paintAll(getGraphics());
         this.setVisible(true); // also i cant figure out why the screen is white untill you hover over the button, like WHY??????????????????
+        this.Buffer(getGraphics());
         run();
     }
     // run method (Its a seperate thread)
