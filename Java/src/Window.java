@@ -8,7 +8,6 @@ import java.awt.Graphics;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Rectangle;
 import java.awt.Image;
 import java.awt.image.BufferStrategy;
 import java.awt.FlowLayout;
@@ -37,17 +36,16 @@ public class Window extends JFrame implements Runnable, KeyListener {
         gameStarted = false;
         ai = false;
         // parameters for making the window (this) refers to the Window class/JFrame b\c it extends it
-        this.getContentPane().setBackground(Color.BLACK);
         this.setBounds(340, 30, 800, 700);
         this.setBackground(Color.BLACK);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.setTitle("PONGGG                                 it has three g's okay... it doesnt infringe on copy right i swear");
+        this.setTitle("PONGGG                                 it has three g's okay... it doesnt infringe on copy right i swear"); // Title
         this.setFocusable(true);
         this.addKeyListener(this);
         // button stuff
         this.button.setBackground(Color.WHITE);
-        this.button.addActionListener(new ActionListener() {
+        this.button.addActionListener(new ActionListener() { // Button stuff
             @Override
             public void actionPerformed(ActionEvent e) {
                 button.setVisible(false);
@@ -57,15 +55,15 @@ public class Window extends JFrame implements Runnable, KeyListener {
         });
         this.setLayout(new FlowLayout(FlowLayout.CENTER, this.getSize().width / 2, this.getSize().height / 2));
         button.setPreferredSize(d);
-        //button.
         this.add(button);
-        this.setVisible(true);
-        this.paintComponents(getGraphics()); //paints the screen but only once so that the button is visible
+        //paints the screen but only once so that the button is visible
+        this.paintAll(getGraphics());
+        this.setVisible(true); // also i cant figure out why the screen is white untill you hover over the button, like WHY??????????????????
         run();
     }
     // run method (Its a seperate thread)
     @Override
-    public void run() { // smooths framerate across devices by fixing framerate/game-updates/per second to time passed since last second
+    public void run() { // smooths framerate across devices by fixing framerate/game-updates/per second to time passed since last second and its only slightly borrowed... nice(!click)
         running = true; // used to tell game tick's while loop to run/ starts the game tick
         long lastLoopTime = System.nanoTime();
         final int FPS = 60;
@@ -83,13 +81,11 @@ public class Window extends JFrame implements Runnable, KeyListener {
                 lastFpsTime = 0;
             }
             // ensures updates are only called if delta is greater than one/(updateLength is greater than optimalTime)
-            if(delta >= 0) {
+            if(delta >= 0 && gameStarted) {
                 //
-                if(gameStarted) {
-                    this.updateGame();
-                    this.Buffer(getGraphics());
-                    ai();
-                }
+                this.updateGame();
+                this.Buffer(getGraphics());
+                ai();
                 //
                 if(ball.playerGameOver() == true) {
                     this.playerGameOver();
@@ -124,23 +120,34 @@ public class Window extends JFrame implements Runnable, KeyListener {
             //
         }
     }
-    //
     // paddle2's Ai/CPU mode
     public void ai() {
         // ai stuff here el bozo
-        if(paddle2.y > ball.ball.y && paddle2.y > 558) {
-            paddle2.y -= 1;
-        } else if(paddle2.y < ball.ball.y && paddle2.y > 40) {
-            paddle2.y += 1;
+        if(paddle2.y > ball.ball.y) {
+            if(paddle2.y <= 10) {
+                paddle2.y += 1;
+            } else {
+                paddle2.y -= 1;
+                paddle2.paddle.y = paddle2.y;
+            }
+        } else if(paddle2.y < ball.ball.y) {
+            if(paddle2.y >= 550) {
+                paddle2.y -= 1;
+            } else {
+                paddle2.y += 1;
+                paddle2.paddle.y = paddle2.y;
+            }
         }
     }
     //
     public void playerGameOver() {
         // gameover state
         gameStarted = false;
-        label.setText("GameOver");
+        Dimension d = new Dimension();
+        d.setSize(200, 135);
         label.setBackground(Color.WHITE);
-        label.setSize(5000, 5000);
+        label.setText("GameOver");
+        label.setSize(d);
         this.add(label);
     }
     //
@@ -163,11 +170,11 @@ public class Window extends JFrame implements Runnable, KeyListener {
         // for paddle 1 collision
         if (ball.ball.intersects(this.paddle1.paddle)) {
             ball.setXDirection(+1);
-        }  
+        }
         // for paddle 2 collision  
         if (ball.ball.intersects(paddle2.paddle)) {
             ball.setXDirection(-1);
-        }  
+        }
     }
     //
     public void wallcollision() {
@@ -182,13 +189,15 @@ public class Window extends JFrame implements Runnable, KeyListener {
     //
     protected void updateGame() {
         //game update methods such as calls to stuff goes here
-        paddle1.paddle.x = paddle1.x;
         paddle1.paddle.y = paddle1.y;
+        paddle2.paddle.y = paddle2.y;
         this.ball.move(this);
     }
     //
     public void paint(Graphics g) {
-        if(gameStarted) {
+        if(!gameStarted) {
+            this.button.grabFocus();
+        } else if(gameStarted) {
             // paints ball using ball draw method
             this.ball.draw(g);
             // draws player 1's paddle

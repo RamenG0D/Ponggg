@@ -7,7 +7,7 @@ import java.awt.Image;
 
 public class Paddle2 {
     public Rectangle paddle;
-    public File p2File = new File("C:/Users/kali/Downloads/Java/Game/src/Paddle.png");
+    public File p2File = new File("assets\\Paddle.png");
     public int x;
     public int y;
     Image Sprite;

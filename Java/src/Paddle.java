@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Paddle {
-    public File Paddle = new File("C:/Users/kali/Downloads/Java/Game/src/Paddle.png");
+    public File Paddle = new File("assets\\Paddle.png");
     public Image playerImage;
     public Rectangle paddle;
     public int y;

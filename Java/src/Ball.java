@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.awt.Image;
 
 public class Ball {
-    File ballFile = new File("C:/Users/kali/Downloads/Java/Game/src/Ball.png");
+    File ballFile = new File("assets\\Ball.png");
     Image ballImage;
     Rectangle ball;
     int xDirection;
