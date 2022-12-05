@@ -16,8 +16,10 @@ import java.awt.Font;
 public class Window extends JFrame implements Runnable, KeyListener {
     private Paddle paddle1 = new Paddle(25, 300);
     private Paddle2 paddle2 = new Paddle2(750, 300);
+    Score score = new Score();
     public Ball ball = new Ball(400, 400);
     JLabel label = new JLabel();
+    JLabel scoreLabel = new JLabel();
     JButton button = new JButton("Play");
     JButton aiButton = new JButton("Play Against Ai");
     double velocity = 0;
@@ -88,7 +90,7 @@ public class Window extends JFrame implements Runnable, KeyListener {
                 //
                 this.updateGame();
                 this.Buffer(getGraphics());
-                ai();
+                this.ai();
                 //
                 if(ball.playerGameOver() == true) {
                     this.playerGameOver();
@@ -128,14 +130,14 @@ public class Window extends JFrame implements Runnable, KeyListener {
         // ai stuff here el bozo
         if(paddle2.y > ball.ball.y) {
             if(paddle2.y <= 10) {
-                paddle2.y += 1;
+                paddle2.y += 0.5;
             } else {
                 paddle2.y -= 1;
                 paddle2.paddle.y = paddle2.y;
             }
         } else if(paddle2.y < ball.ball.y) {
             if(paddle2.y >= 550) {
-                paddle2.y -= 1;
+                paddle2.y -= 0.5;
             } else {
                 paddle2.y += 1;
                 paddle2.paddle.y = paddle2.y;
@@ -207,6 +209,8 @@ public class Window extends JFrame implements Runnable, KeyListener {
             this.paddle1.draw(g);
             // draws the player2/AI paddle
             this.paddle2.draw(g);
+            // Score draw
+            this.score.draw(g);
         }
     }
     @Override
@@ -218,10 +222,10 @@ public class Window extends JFrame implements Runnable, KeyListener {
         wallcollision();
         if(keycode == KeyEvent.VK_W || keycode == KeyEvent.VK_UP) {
             this.paddle1.y -= velocity;
-            velocity += 0.1;
+            velocity += 0.2;
         } else if(keycode == KeyEvent.VK_S || keycode == KeyEvent.VK_DOWN ) {
             this.paddle1.y -= velocity;
-            velocity -= 0.1;
+            velocity -= 0.2;
         }
     }
     @Override

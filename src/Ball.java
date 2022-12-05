@@ -48,11 +48,11 @@ public class Ball {
         //Bounce the ball when edge is detected  
         if(ball.x <= 14) {  
             setXDirection(+1);
-            playerGameOver();
             fail = true;
+            playerGameOver();
         } else if (ball.x >= 745) { 
             setXDirection(-1);
-            Score.playerScore(+1);
+            window.score.playerScore(+1);
         } else if (ball.y <= 30) {  
             setYDirection(+1);  
         } else if (ball.y >= 640) {  
