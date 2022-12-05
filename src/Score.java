@@ -5,8 +5,13 @@ import java.awt.Graphics;
 public class Score {
 
   private int score;
+  public int x;
+  public int y;
 
-  public Score() {}
+  public Score(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
 
   public int playerScore(int playerScore) {
     this.score = playerScore;
@@ -24,6 +29,6 @@ public class Score {
   public void draw(Graphics g) {
     g.setColor(Color.WHITE);
     g.setFont(new Font("Basic", Font.PLAIN, 100));
-    g.drawString(Str(), 250, 150);
+    g.drawString(Str(), x, y);
   }
 }

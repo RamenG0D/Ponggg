@@ -52,7 +52,7 @@ public class Ball {
             playerGameOver();
         } else if (ball.x >= 745) { 
             setXDirection(-1);
-            window.score.playerScore(+1);
+            window.score1.playerScore(+1);
         } else if (ball.y <= 30) {  
             setYDirection(+1);  
         } else if (ball.y >= 640) {  
