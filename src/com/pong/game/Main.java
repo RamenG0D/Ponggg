@@ -1,3 +1,5 @@
+package com.pong.game;
+
 public class Main {
     public Main() {
         new Window();

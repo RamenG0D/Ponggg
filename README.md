@@ -6,9 +6,12 @@ Thats it, its pong made in java and my first app made in java
 
 #Features to add/implement
 
-- [ ] make ai able to lose
+- [ ] make the ai able to lose
 - [ ] fully implement score
 - [ ] make ball faster
 - [ ] Make Proper Menu
 - [ ] implement local multiplayer
+- [ ] add player death
+- [ ] add replay functionality
+
 ```

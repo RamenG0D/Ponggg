@@ -1,3 +1,5 @@
+package com.pong.game;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -16,8 +18,9 @@ import java.awt.Font;
 public class Window extends JFrame implements Runnable, KeyListener {
     private Paddle paddle1 = new Paddle(25, 300);
     private Paddle2 paddle2 = new Paddle2(750, 300);
-    Score score = new Score();
     public Ball ball = new Ball(400, 400);
+    Score score1 = new Score(250, 150);
+    Score score2 = new Score(250, 150);
     JLabel label = new JLabel();
     JLabel scoreLabel = new JLabel();
     JButton button = new JButton("Play");
@@ -43,23 +46,37 @@ public class Window extends JFrame implements Runnable, KeyListener {
         this.setBackground(Color.BLACK);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.setTitle("PONGGG                                 it has three g's okay... it doesnt infringe on copy right i swear"); // Title
+        this.setTitle("PONGGG                                    it has three g's okay... it doesnt infringe on copy right i swear"); // Title
         this.setFocusable(true);
         this.addKeyListener(this);
         // button stuff
         this.button.setBackground(Color.WHITE);
+        this.aiButton.setBackground(Color.WHITE);
         this.button.addActionListener(new ActionListener() { // Button stuff
             @Override
             public void actionPerformed(ActionEvent e) {
                 button.setVisible(false);
+                aiButton.setVisible(false);
+                gameStarted = true;
+            }
+        });
+        this.aiButton.addActionListener(new ActionListener() { // toggles ai mode
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                button.setVisible(false);
+                aiButton.setVisible(false);
                 gameStarted = true;
                 ai = true;
             }
         });
-        this.setLayout(new FlowLayout(FlowLayout.CENTER, this.getSize().width / 2, this.getSize().height / 2));
+        this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 350));
+        aiButton.setPreferredSize(d);
         button.setPreferredSize(d);
+        aiButton.setFont(new Font("Arial", Font.PLAIN, 20));
         button.setFont(new Font("Arial", Font.PLAIN, 30));
+        aiButton.setFocusPainted(false);
         button.setFocusPainted(false);
+        this.add(aiButton);
         this.add(button);
         //paints the screen but only once so that the button is visible
         this.setVisible(true); // also i cant figure out why the screen is white untill you hover over the button, like WHY??????????????????
@@ -202,6 +219,7 @@ public class Window extends JFrame implements Runnable, KeyListener {
     public void paint(Graphics g) {
         if(!gameStarted) {
             this.button.grabFocus();
+            this.aiButton.grabFocus();
         } else if(gameStarted) {
             // paints ball using ball draw method
             this.ball.draw(g);
@@ -209,8 +227,10 @@ public class Window extends JFrame implements Runnable, KeyListener {
             this.paddle1.draw(g);
             // draws the player2/AI paddle
             this.paddle2.draw(g);
-            // Score draw
-            this.score.draw(g);
+            // Player1's Score draw
+            this.score1.draw(g);
+            // Player2's score
+            this.score2.draw(g);
         }
     }
     @Override
