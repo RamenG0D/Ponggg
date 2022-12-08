@@ -8,7 +8,7 @@
             "type": "java",
             "name": "Launch Main",
             "request": "launch",
-            "mainClass": "Main",
+            "mainClass": "com.pong.game.Main",
             "projectName": "Ponggg_3d086ba4"
         },
         {
