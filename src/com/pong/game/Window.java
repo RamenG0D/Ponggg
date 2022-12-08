@@ -20,11 +20,12 @@ public class Window extends JFrame implements Runnable, KeyListener {
     private Paddle2 paddle2 = new Paddle2(750, 300);
     public Ball ball = new Ball(400, 400);
     Score score1 = new Score(250, 150);
-    Score score2 = new Score(250, 150);
+    Score score2 = new Score(500, 150);
     JLabel label = new JLabel();
     JLabel scoreLabel = new JLabel();
     JButton button = new JButton("Play");
     JButton aiButton = new JButton("Play Against Ai");
+    JLabel gameText = new JLabel("Ponggg");
     double velocity = 0;
     public boolean Pressed;
     boolean playPressed;
@@ -35,10 +36,6 @@ public class Window extends JFrame implements Runnable, KeyListener {
     int keycode;
     //
     public Window() {
-        Dimension d = new Dimension();
-        d.width = 185;
-        d.height = 45;
-        this.ball.fail = false;
         gameStarted = false;
         ai = false;
         // parameters for making the window (this) refers to the Window class/JFrame b\c it extends it
@@ -49,35 +46,8 @@ public class Window extends JFrame implements Runnable, KeyListener {
         this.setTitle("PONGGG                                    it has three g's okay... it doesnt infringe on copy right i swear"); // Title
         this.setFocusable(true);
         this.addKeyListener(this);
-        // button stuff
-        this.button.setBackground(Color.WHITE);
-        this.aiButton.setBackground(Color.WHITE);
-        this.button.addActionListener(new ActionListener() { // Button stuff
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                button.setVisible(false);
-                aiButton.setVisible(false);
-                gameStarted = true;
-            }
-        });
-        this.aiButton.addActionListener(new ActionListener() { // toggles ai mode
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                button.setVisible(false);
-                aiButton.setVisible(false);
-                gameStarted = true;
-                ai = true;
-            }
-        });
-        this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 350));
-        aiButton.setPreferredSize(d);
-        button.setPreferredSize(d);
-        aiButton.setFont(new Font("Arial", Font.PLAIN, 20));
-        button.setFont(new Font("Arial", Font.PLAIN, 30));
-        aiButton.setFocusPainted(false);
-        button.setFocusPainted(false);
-        this.add(aiButton);
-        this.add(button);
+        // creates the Menu
+        Menu();
         //paints the screen but only once so that the button is visible
         this.setVisible(true); // also i cant figure out why the screen is white untill you hover over the button, like WHY??????????????????
         this.Buffer(getGraphics());
@@ -107,12 +77,11 @@ public class Window extends JFrame implements Runnable, KeyListener {
                 //
                 this.updateGame();
                 this.Buffer(getGraphics());
-                this.ai();
-                //
-                if(ball.playerGameOver() == true) {
-                    this.playerGameOver();
+                // check if the player pressed on play ai button
+                if(ai) {
+                    this.ai();
                 }
-                //
+                // player slidey movement system
                 if(!Pressed) {
                     wallcollision();
                     if(velocity > 0 && this.velocity != 0) {
@@ -134,12 +103,12 @@ public class Window extends JFrame implements Runnable, KeyListener {
                     }
                 }
             }
-            //
-            try{
+            try {
                 var l = (lastLoopTime - System.nanoTime() + optimalTime) / 1000000;
                 Thread.sleep(l);
-            }catch(Exception e){}
-            //
+            }catch(IllegalArgumentException | InterruptedException e){
+                e.printStackTrace();
+            }
         }
     }
     // paddle2's Ai/CPU mode
@@ -173,6 +142,39 @@ public class Window extends JFrame implements Runnable, KeyListener {
         this.add(label);
     }
     //
+    public void Menu() { // the menu
+        Dimension d = new Dimension();
+        d.width = 185;
+        d.height = 45;
+        // button stuff
+        this.button.addActionListener(new ActionListener() { // Button stuff
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                button.setVisible(false);
+                aiButton.setVisible(false);
+                gameStarted = true;
+            }
+        });
+        this.aiButton.addActionListener(new ActionListener() { // toggles ai mode
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                button.setVisible(false);
+                aiButton.setVisible(false);
+                gameStarted = true;
+                ai = true;
+            }
+        });
+        this.setLayout(new FlowLayout(FlowLayout.CENTER, 100, 350));
+        aiButton.setPreferredSize(d);
+        button.setPreferredSize(d);
+        aiButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        button.setFont(new Font("Arial", Font.PLAIN, 25));
+        aiButton.setFocusPainted(false);
+        button.setFocusPainted(false);
+        this.add(aiButton);
+        this.add(button);
+    }
+    //
     public void Buffer(Graphics g) {
         Graphics offg;
         Image offscreen = null;
@@ -191,11 +193,11 @@ public class Window extends JFrame implements Runnable, KeyListener {
     public void collision() {
         // for paddle 1 collision
         if (ball.ball.intersects(this.paddle1.paddle)) {
-            ball.setXDirection(+1);
+            ball.setXDirection(+2);
         }
         // for paddle 2 collision  
         if (ball.ball.intersects(paddle2.paddle)) {
-            ball.setXDirection(-1);
+            ball.setXDirection(-2);
         }
     }
     //
@@ -213,13 +215,21 @@ public class Window extends JFrame implements Runnable, KeyListener {
         //game update methods such as calls to stuff goes here
         paddle1.paddle.y = paddle1.y;
         paddle2.paddle.y = paddle2.y;
-        this.ball.move(this);
+        ball.move(this);
+    }
+    public void menuLabel() {
+        gameText.setForeground(Color.WHITE);
+        this.getContentPane().setBackground(Color.BLACK);
+        gameText.setBounds(300, 150, 190, 100);
+        gameText.setFont(new Font("Basic", Font.BOLD, 50));
+        this.getContentPane().add(gameText);
     }
     //
     public void paint(Graphics g) {
         if(!gameStarted) {
             this.button.grabFocus();
             this.aiButton.grabFocus();
+            menuLabel();
         } else if(gameStarted) {
             // paints ball using ball draw method
             this.ball.draw(g);
@@ -228,9 +238,9 @@ public class Window extends JFrame implements Runnable, KeyListener {
             // draws the player2/AI paddle
             this.paddle2.draw(g);
             // Player1's Score draw
-            this.score1.draw(g);
+            this.score1.draw1(g);
             // Player2's score
-            this.score2.draw(g);
+            this.score2.draw2(g);
         }
     }
     @Override

@@ -2,9 +2,9 @@
 
 Thats it, its pong made in java and my first app made in java
 
-```[GameStuff]
+## **My List of Todo's**
 
-#Features to add/implement
+```[GameStuff]
 
 - [ ] make the ai able to lose
 - [ ] fully implement score

@@ -3,6 +3,5 @@
         "src",
         "assets"
     ],
-    "java.project.outputPath": "bin",
-    "todo-tree.tree.showBadges": false
+    "java.project.outputPath": "bin"
 }

@@ -14,7 +14,6 @@ public class Ball {
     Rectangle ball;
     int xDirection;
     int yDirection;
-    boolean fail;
     int x;
     int y;
     //
@@ -49,28 +48,19 @@ public class Ball {
         ball.y += yDirection;  
         //Bounce the ball when edge is detected  
         if(ball.x <= 14) {  
-            setXDirection(+1);
-            fail = true;
-            playerGameOver();
+            if(window.score1.score1 < window.score2.score2) {
+                window.playerGameOver();
+            } else {
+                window.score1.P1Score(-1);
+            }
         } else if (ball.x >= 745) { 
-            setXDirection(-1);
-            window.score1.playerScore(+1);
+            setXDirection(-2);
+            window.score1.P1Score(+1);
         } else if (ball.y <= 30) {  
-            setYDirection(+1);  
+            setYDirection(+2);  
         } else if (ball.y >= 640) {  
-            setYDirection(-1);  
+            setYDirection(-2);  
         }  
-    }
-    public boolean playerGameOver() {
-        if(fail == true) {
-            System.out.println("bruh");
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public Ball ball() {
-        return new Ball(x, y);
     }
     public void draw(Graphics g) {
         // draw parameters

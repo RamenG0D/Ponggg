@@ -6,7 +6,8 @@ import java.awt.Graphics;
 
 public class Score {
 
-  private int score;
+  public int score1;
+  public int score2;
   public int x;
   public int y;
 
@@ -15,22 +16,40 @@ public class Score {
     this.y = y;
   }
 
-  public int playerScore(int playerScore) {
-    this.score = playerScore;
-    return score;
+  public int P1Score(int playerScore) {
+    this.score1 += playerScore;
+    return score1;
   }
-
-  public String Str() {
-    if (score > 0) {
-      return String.valueOf(score);
+  //
+  public int P2Score(int bot) {
+    this.score2 += bot;
+    return score2;
+  }
+  //
+  public String scoreOneString() {
+    if(score1 > 0) {
+      return String.valueOf(score1);
     } else {
       return "0";
     }
   }
-
-  public void draw(Graphics g) {
+  //
+  public String scoreTwoString() {
+    if(score2 > 0) {
+      return String.valueOf(score2);
+    } else {
+      return "0";
+    }
+  }
+  //
+  public void draw1(Graphics g) {
     g.setColor(Color.WHITE);
-    g.setFont(new Font("Basic", Font.PLAIN, 100));
-    g.drawString(Str(), x, y);
+    g.setFont(new Font("Arial", Font.BOLD, 100));
+    g.drawString(scoreOneString(), x, y);
+  }
+  public void draw2(Graphics g) {
+    g.setColor(Color.WHITE);
+    g.setFont(new Font("Arial", Font.BOLD, 100));
+    g.drawString(scoreTwoString(), x, y);
   }
 }
