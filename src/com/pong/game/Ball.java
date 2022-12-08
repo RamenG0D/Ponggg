@@ -1,3 +1,5 @@
+package com.pong.game;
+
 import java.awt.Graphics;
 import java.util.Random;
 import javax.imageio.ImageIO;
@@ -7,7 +9,7 @@ import java.io.IOException;
 import java.awt.Image;
 
 public class Ball {
-    File ballFile = new File("assets\\Ball.png");
+    File ballFile = new File("assets/Ball.png");
     Image ballImage;
     Rectangle ball;
     int xDirection;
